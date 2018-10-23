@@ -49,9 +49,11 @@ Midi *read_midi_file(char *file) {
             //------debug------
         } else {
             log_e("Bad file format\n");
+            free(buffer);
             return NULL;
         }
     }
+    free(buffer);
     return midi;
 }
 

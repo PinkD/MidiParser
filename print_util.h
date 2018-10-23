@@ -2,7 +2,7 @@
 #define MIDIPARSER_PRINT_UTIL_H
 
 
-#include "midi_struct.h"
+#include "midi_common.h"
 
 void print_midi_header(MidiHeader *header);
 

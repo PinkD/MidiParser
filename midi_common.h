@@ -92,4 +92,18 @@ typedef struct {
     MidiTrack *track;
 } Midi;
 
+void free_midi(Midi *midi);
+
+void free_track(MidiTrack *track);
+
+void free_header(MidiHeader *header);
+
+void free_event(TrackEvent *event);
+
+void free_note_event(NoteEvent *noteEvent);
+
+void free_time_signature_event(TimeSignatureEvent *timeSignatureEvent);
+
+void free_text_event(TextEvent *textEvent);
+
 #endif

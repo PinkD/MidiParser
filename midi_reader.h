@@ -2,7 +2,7 @@
 #define MIDIPARSER_LIBRARY_H
 
 #include "bit_util.h"
-#include "midi_struct.h"
+#include "midi_common.h"
 
 Midi *read_midi_file(char *file);
 
