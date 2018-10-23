@@ -1,0 +1,6 @@
+cmake-build-debug/
+.idea/
+include/
+test*
+*.html
+*.mid
