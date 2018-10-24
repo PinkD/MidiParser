@@ -1,9 +1,15 @@
 #ifndef MIDIPARSER_LIBRARY_H
 #define MIDIPARSER_LIBRARY_H
 
-#include "bit_util.h"
 #include "midi_common.h"
 
+//NOTE: if you call free_xxx, all it's children with be free too
+
+/**
+ * read hole midi file
+ * @param file file path
+ * @return midi, free with free_midi
+ */
 Midi *read_midi_file(char *file);
 
 /**
@@ -14,20 +20,42 @@ Midi *read_midi_file(char *file);
  */
 MidiHeader *read_header(uint32 len, FILE *f);
 
+/**
+ * @param len track len
+ * @param f file ptr
+ * @return remember to free with free_header
+ */
 MidiTrack *read_track(uint32 len, FILE *f);
 
+/**
+ * read event
+ * @param f file ptr
+ * @return remember to free with free_event
+ */
 TrackEvent *read_event(FILE *f);
 
+/**
+ * read tempo
+ * @param f file ptr
+ * @return tempo in float
+ */
 float read_tempo(FILE *f);
 
 /**
  * read time signature
  * @param f file ptr
- * @return struct, need to be free
+ * @return remember to free with free_time_signature
  */
 TimeSignature *read_time_signature(FILE *f);
 
+/**
+ * read note
+ * @param f file ptr
+ * @param type note type see `NOTE_TYPE`
+ * @param track note track between 0-f
+ * @param offset time unit offset
+ * @return remember to free with free_note
+ */
 Note *read_note(FILE *f, NOTE_TYPE type, byte track, uint32 offset);
-
 
 #endif

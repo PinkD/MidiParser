@@ -92,18 +92,48 @@ typedef struct {
     MidiTrack *track;
 } Midi;
 
+//NOTE: if you call free_xxx, all it's children with be free too
+
+/**
+ * free midi and it's children
+ * @param midi
+ */
 void free_midi(Midi *midi);
 
+/**
+ * free midi track and it's children
+ * @param track
+ */
 void free_track(MidiTrack *track);
 
+/**
+ * free header
+ * @param header
+ */
 void free_header(MidiHeader *header);
 
+/**
+ * free event and it's children
+ * @param event
+ */
 void free_event(TrackEvent *event);
 
+/**
+ * free note event and it's children
+ * @param noteEvent
+ */
 void free_note_event(NoteEvent *noteEvent);
 
+/**
+ * free time signature event and it's children
+ * @param timeSignatureEvent
+ */
 void free_time_signature_event(TimeSignatureEvent *timeSignatureEvent);
 
+/**
+ * free text event and text in it
+ * @param textEvent
+ */
 void free_text_event(TextEvent *textEvent);
 
 #endif

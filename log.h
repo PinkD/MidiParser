@@ -1,6 +1,11 @@
 #ifndef MIDIPARSER_LOG_H
 #define MIDIPARSER_LOG_H
 
+const static size_t TIME_STR_LEN = 20;
+static char result[20];
+
+//NOTE: log functions are not thread safe
+
 /**
  * get time string like `2018-12-31 12:12:12` , len is 20(include string end)
  * @return time now string, need to be free
