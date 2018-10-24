@@ -3,7 +3,7 @@ project(MidiParser)
 
 set(CMAKE_C_STANDARD 11)
 
-add_library(libMidiParser
+add_library(MidiParser
         base_def.h
         midi_reader.h midi_reader.c
         log.h log.c
@@ -13,6 +13,7 @@ add_library(libMidiParser
         print_util.h print_util.c
         )
 
-link_libraries(libMidiParser m)
+link_libraries(MidiParser m)
 
-add_executable(MidiParser test.c)
+# comment the fowllowing line to build libMidiParser.a
+add_executable(MidiParser-test test.c)

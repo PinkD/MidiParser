@@ -1,19 +1,28 @@
 #include "midi_writer.h"
 #include "common_util.h"
+#include "log.h"
 #include <math.h>
 
 void write_midi(char *path, Midi *midi) {
     FILE *f = fopen(path, "wb");
+    if (!f) {
+        log_e("Can not open file");
+        return;
+    }
+    log_v("Writing file...");
     fwrite(TYPE_MIDI_HEADER, 4, 1, f);
+    log_v("Writing header...");
     write_header(f, midi->header);
 
     MidiTrack *track = midi->track;
 
     while (track) {
+        log_v("Writing track...");
         fwrite(TYPE_MIDI_TRACK, 4, 1, f);
         write_track(f, track);
         track = track->next;
     }
+    log_v("Writing file successful");
     fclose(f);
 }
 

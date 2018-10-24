@@ -11,21 +11,25 @@
 Midi *read_midi_file(char *file) {
     FILE *f = fopen(file, "rb");
     if (!f) {
+        log_e("Can not open file");
         return NULL;
     }
+    log_v("Reading file...");
     const static int BUFFER_SIZE = 1024;
     byte buffer[BUFFER_SIZE];
     memset(buffer, 0x00, BUFFER_SIZE);
     uint32 len;
-    Midi *midi = malloc(sizeof(Midi));
+    Midi *midi = calloc(sizeof(Midi), 1);
     while (fread(buffer, sizeof(char) * 4, 1, f)) {
         fread(&len, sizeof(uint32), 1, f);
         len = swap_bit_32(len);
         if (strcmp(TYPE_MIDI_HEADER, (const char *) buffer) == 0) {//header
+            log_v("Reading header...");
             midi->header = read_header(len, f);
             log_d("Header:");
             print_midi_header(midi->header);
         } else if (strcmp(TYPE_MIDI_TRACK, (const char *) buffer) == 0) {//track
+            log_v("Reading track...");
             log_d("Track, len is:");
             log_d(int_to_str(len));
             MidiTrack *track = read_track(len, f);
@@ -41,13 +45,6 @@ Midi *read_midi_file(char *file) {
                     continue;
                 }
             }
-            //------debug------
-//            track = midi->tracks;
-//            while (track) {
-//                print_track(track);
-//                track = track->next;
-//            }
-            //------debug------
         } else {
             log_e("Bad file format\n");
             fclose(f);
@@ -55,6 +52,7 @@ Midi *read_midi_file(char *file) {
         }
     }
     fclose(f);
+    log_v("Read file successful");
     return midi;
 }
 

@@ -54,7 +54,7 @@ byte read_byte(FILE *f) {
     return tmp;
 }
 
-uint32 read_vlq(FILE *f) {//DONE
+uint32 read_vlq(FILE *f) {
     unsigned char bit;
     uint32 result = 0;
     while ((bit = read_byte(f)) & 0x80) {
@@ -65,7 +65,7 @@ uint32 read_vlq(FILE *f) {//DONE
     return result;
 }
 
-uint32 int_to_vlq(uint32 in) {//TODO: fix this function
+uint32 int_to_vlq(uint32 in) {
     if (in < 0x80) {
         return in;
     }
