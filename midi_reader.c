@@ -14,7 +14,8 @@ Midi *read_midi_file(char *file) {
         return NULL;
     }
     const static int BUFFER_SIZE = 1024;
-    byte *buffer = calloc(sizeof(byte), BUFFER_SIZE);
+    byte buffer[BUFFER_SIZE];
+    memset(buffer, 0x00, BUFFER_SIZE);
     uint32 len;
     Midi *midi = malloc(sizeof(Midi));
     while (fread(buffer, sizeof(char) * 4, 1, f)) {
@@ -49,17 +50,19 @@ Midi *read_midi_file(char *file) {
             //------debug------
         } else {
             log_e("Bad file format\n");
-            free(buffer);
+            fclose(f);
             return NULL;
         }
     }
-    free(buffer);
+    fclose(f);
     return midi;
 }
 
 MidiHeader *read_header(uint32 len, FILE *f) {
     uint16 tmp;
     MidiHeader *header = malloc(sizeof(MidiHeader));
+
+    header->length = len;
 
     fread(&tmp, sizeof(uint16), 1, f);
     header->format = (Format) (swap_bit_16(tmp));
@@ -98,12 +101,13 @@ MidiTrack *read_track(uint32 len, FILE *f) {
 
 
 TrackEvent *read_event(FILE *f) {
-    TrackEvent *trackEvent = malloc(sizeof(TrackEvent));
-    uint32 delta_time = read_vlq(f);
-    byte tag = read_byte(f);
-
     uint32 len;
     char *text;
+
+    TrackEvent *trackEvent = malloc(sizeof(TrackEvent));
+    trackEvent->offset = read_vlq(f);
+    byte tag = read_byte(f);
+
 
     if (tag == 0xff) {
         byte next = read_byte(f);
@@ -295,7 +299,7 @@ TrackEvent *read_event(FILE *f) {
     } else if (tag >= 0x80 && tag <= 0x8f) {//event note off
         log_d("event note end");
         NoteEvent *noteEvent = malloc(sizeof(NoteEvent));
-        noteEvent->note = read_note(f, NOTE_END, tag & (byte) 0x0f, delta_time);
+        noteEvent->note = read_note(f, NOTE_END, tag & (byte) 0x0f, trackEvent->offset);
 //        print_note(noteEvent->note);
         trackEvent->type = TRACK_EVENT_TYPE_NOTE;
         trackEvent->event = noteEvent;
@@ -305,7 +309,7 @@ TrackEvent *read_event(FILE *f) {
         log_d("event note start");
 
         NoteEvent *noteEvent = malloc(sizeof(NoteEvent));
-        noteEvent->note = read_note(f, NOTE_START, tag & (byte) 0x0f, delta_time);
+        noteEvent->note = read_note(f, NOTE_START, tag & (byte) 0x0f, trackEvent->offset);
 //        print_note(noteEvent->note);
 
         trackEvent->type = TRACK_EVENT_TYPE_NOTE;
@@ -315,7 +319,7 @@ TrackEvent *read_event(FILE *f) {
     } else if (tag >= 0xa0 && tag <= 0xaf) {//polyphonic key pressure
 
     } else if (tag >= 0xb0 && tag <= 0xbf) {//control message
-    } else if (tag >= 0xc0 && tag <= 0xcf) {//program chage
+    } else if (tag >= 0xc0 && tag <= 0xcf) {//program change
     } else if (tag >= 0xd0 && tag <= 0xdf) {//channel pressure(after touch)
     } else if (tag >= 0xe0 && tag <= 0xef) {//pitch wheel change
     } else if (tag >= 0xf0 && tag <= 0xff) {//system message

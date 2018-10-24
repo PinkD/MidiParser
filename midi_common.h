@@ -26,13 +26,13 @@ typedef enum {
 } TRACK_EVENT_TYPE;
 
 typedef enum {
-    TEXT_EVENT_TYPE_TEXT,
-    TEXT_EVENT_TYPE_COPYRIGHT,
-    TEXT_EVENT_TYPE_TRACK_NAME,
-    TEXT_EVENT_TYPE_INSTRUMENT_NAME,
-    TEXT_EVENT_TYPE_LYRIC,
-    TEXT_EVENT_TYPE_MAKER,
-    TEXT_EVENT_TYPE_CUE_POINT,
+    TEXT_EVENT_TYPE_TEXT = 0x01,
+    TEXT_EVENT_TYPE_COPYRIGHT = 0x02,
+    TEXT_EVENT_TYPE_TRACK_NAME = 0x03,
+    TEXT_EVENT_TYPE_INSTRUMENT_NAME = 0x04,
+    TEXT_EVENT_TYPE_LYRIC = 0x05,
+    TEXT_EVENT_TYPE_MAKER = 0x06,
+    TEXT_EVENT_TYPE_CUE_POINT = 0x07,
 } TEXT_EVENT_TYPE;
 
 typedef struct {
@@ -77,6 +77,7 @@ typedef struct {
 
 typedef struct _TrackEvent {
     TRACK_EVENT_TYPE type;
+    uint32 offset;
     void *event;
     struct _TrackEvent *next;
 } TrackEvent;

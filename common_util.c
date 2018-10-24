@@ -65,7 +65,7 @@ uint32 read_vlq(FILE *f) {//DONE
 }
 
 
-uint32 int_to_vlq(uint32 in) {
+uint32 int_to_vlq(uint32 in) {//TODO: fix this function
 //    in = swap_bit_32(in);
     uint32 result = 0;
     if (in < 0x80) {
@@ -91,4 +91,34 @@ uint32 int_to_vlq(uint32 in) {
         return swap_bit_16((uint16) (result & 0x7fff));
     }
 //    return swap_bit_32(result & 0x7fffffff);
+}
+
+void write_byte(FILE *f, byte in) {
+    fputc(in, f);
+}
+
+void write_vlq(FILE *f, uint32 in) {
+    in = int_to_vlq(in);
+    if (in >> 24 & 0xff) {
+        write_byte(f, (byte) (in >> 24 & 0xff));
+    }
+    if (in >> 16 & 0xff) {
+        write_byte(f, (byte) (in >> 16 & 0xff));
+    }
+    if (in >> 8 & 0xff) {
+        write_byte(f, (byte) (in >> 8 & 0xff));
+    }
+    write_byte(f, (byte) (in & 0xff));
+}
+
+void write_uint32(FILE *f, uint32 in) {
+    write_byte(f, (byte) (in >> 24 & 0xff));
+    write_byte(f, (byte) (in >> 16 & 0xff));
+    write_byte(f, (byte) (in >> 8 & 0xff));
+    write_byte(f, (byte) (in & 0xff));
+}
+
+void write_uint16(FILE *f, uint16 in) {
+    write_byte(f, (byte) (in >> 8 & 0xff));
+    write_byte(f, (byte) (in & 0xff));
 }
