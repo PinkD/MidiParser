@@ -34,6 +34,7 @@ void write_track(FILE *f, MidiTrack *track) {
     }
     TrackEvent endEvent;
     endEvent.type = TRACK_EVENT_TYPE_END;
+    endEvent.offset = 0;
     write_event(f, &endEvent);
 }
 
@@ -94,7 +95,8 @@ void write_time_signature(FILE *f, TimeSignatureEvent *event) {
     write_byte(f, timeSignature->notate);
 }
 
-void write_note(FILE *f, Note *note) {
+void write_note(FILE *f, NoteEvent *event) {
+    Note *note = event->note;
     byte t;
     if (note->type == NOTE_START) {
         t = (byte) (0x90 | note->track);
@@ -109,6 +111,6 @@ void write_note(FILE *f, Note *note) {
 void write_text(FILE *f, TextEvent *event) {
     write_byte(f, 0xff);
     write_byte(f, event->type);
-    write_vlq(f, event->len);
-    fwrite(event->text, event->len, 1, f);
+    write_vlq(f, event->len - 1);//Midi file needs no str end
+    fwrite(event->text, event->len - 1, 1, f);
 }

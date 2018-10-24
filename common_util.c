@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 #include "common_util.h"
 
 char *int_to_str(int value) {
@@ -64,33 +65,20 @@ uint32 read_vlq(FILE *f) {//DONE
     return result;
 }
 
-
 uint32 int_to_vlq(uint32 in) {//TODO: fix this function
-//    in = swap_bit_32(in);
-    uint32 result = 0;
     if (in < 0x80) {
         return in;
     }
-
-//    printBits(result);
-//    printBits(in);
-//    printf("---------\n");
-    while (in > 0x7f) {
-        result += in & 0x7f | 0x80;
-        result = result << 8;
-        in = in >> 7;
-//        printBits(result);
-//        printBits(in);
-//        printf("---------\n");
+    byte tmp[4];
+    memset(tmp, 0x00, 4);
+    for (int i = 3; i >= 0; i--) {
+        if (in == 0) {
+            break;
+        }
+        tmp[i] = (byte) (in & 0x7f | 0x80);
+        in >>= 7;
     }
-
-    result += in & 0x7f | 0x80;
-    if (result > 0xffff) {//TODO: byte based
-        return swap_bit_32(result & 0x7fffffff);
-    } else {
-        return swap_bit_16((uint16) (result & 0x7fff));
-    }
-//    return swap_bit_32(result & 0x7fffffff);
+    return (tmp[0] << 24 & 0xff000000) | (tmp[1] << 16 & 0x00ff0000) | (tmp[2] << 8 & 0x0000ff00) | (tmp[3] & 0x7f);
 }
 
 void write_byte(FILE *f, byte in) {

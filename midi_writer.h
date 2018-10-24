@@ -12,7 +12,7 @@ void write_track(FILE *f, MidiTrack *track);
 
 void write_event(FILE *f, TrackEvent *event);
 
-void write_note(FILE *f, Note *note);
+void write_note(FILE *f, NoteEvent *event);
 
 void write_time_signature(FILE *f, TimeSignatureEvent *event);
 
