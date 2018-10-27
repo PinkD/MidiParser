@@ -1,5 +1,5 @@
-#ifndef MIDIPARSER_MIDI_STRUCT_H
-#define MIDIPARSER_MIDI_STRUCT_H
+#ifndef MIDIPARSER_COMMON_H
+#define MIDIPARSER_COMMON_H
 
 #include "base_def.h"
 

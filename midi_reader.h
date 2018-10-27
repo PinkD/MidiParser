@@ -1,5 +1,5 @@
-#ifndef MIDIPARSER_LIBRARY_H
-#define MIDIPARSER_LIBRARY_H
+#ifndef MIDIPARSER_READER_H
+#define MIDIPARSER_READER_H
 
 #include "midi_common.h"
 

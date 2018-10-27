@@ -3,11 +3,11 @@
 #include "log.h"
 #include <math.h>
 
-void write_midi(char *path, Midi *midi) {
+int write_midi(char *path, Midi *midi) {
     FILE *f = fopen(path, "wb");
     if (!f) {
         log_e("Can not open file");
-        return;
+        return -1;
     }
     log_v("Writing file...");
     fwrite(TYPE_MIDI_HEADER, 4, 1, f);
@@ -24,6 +24,7 @@ void write_midi(char *path, Midi *midi) {
     }
     log_v("Writing file successful");
     fclose(f);
+    return 0;
 }
 
 

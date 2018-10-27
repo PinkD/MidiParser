@@ -1,10 +1,16 @@
-#ifndef MIDIPARSER_MIDI_WRITER_H
-#define MIDIPARSER_MIDI_WRITER_H
+#ifndef MIDIPARSER_WRITER_H
+#define MIDIPARSER_WRITER_H
 
 #include <stdio.h>
 #include "midi_common.h"
 
-void write_midi(char *path, Midi *midi);
+/**
+ * write midi file
+ * @param path
+ * @param midi
+ * @return 0->OK, -1->Error
+ */
+int write_midi(char *path, Midi *midi);
 
 void write_header(FILE *f, MidiHeader *header);
 
