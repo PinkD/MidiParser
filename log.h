@@ -1,5 +1,5 @@
-#ifndef MIDIPARSER_LOG_H
-#define MIDIPARSER_LOG_H
+#ifndef COMMON_LOG_H
+#define COMMON_LOG_H
 
 const static size_t TIME_STR_LEN = 20;
 static char result[20];

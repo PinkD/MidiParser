@@ -1,5 +1,5 @@
-#ifndef BASE_DEF_LIBRARY_H
-#define BASE_DEF_LIBRARY_H
+#ifndef BASE_DEF_H
+#define BASE_DEF_H
 
 #include <stdint.h>
 

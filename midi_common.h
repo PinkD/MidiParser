@@ -105,36 +105,36 @@ void free_midi(Midi *midi);
  * free midi track and it's children
  * @param track
  */
-void free_track(MidiTrack *track);
+void free_midi_track(MidiTrack *track);
 
 /**
  * free header
  * @param header
  */
-void free_header(MidiHeader *header);
+void free_midi_header(MidiHeader *header);
 
 /**
  * free event and it's children
  * @param event
  */
-void free_event(TrackEvent *event);
+void free_midi_event(TrackEvent *event);
 
 /**
  * free note event and it's children
  * @param noteEvent
  */
-void free_note_event(NoteEvent *noteEvent);
+void free_midi_note_event(NoteEvent *noteEvent);
 
 /**
  * free time signature event and it's children
  * @param timeSignatureEvent
  */
-void free_time_signature_event(TimeSignatureEvent *timeSignatureEvent);
+void free_midi_time_signature_event(TimeSignatureEvent *timeSignatureEvent);
 
 /**
  * free text event and text in it
  * @param textEvent
  */
-void free_text_event(TextEvent *textEvent);
+void free_midi_text_event(TextEvent *textEvent);
 
 #endif
