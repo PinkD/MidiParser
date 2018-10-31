@@ -4,8 +4,8 @@
 const static size_t TIME_STR_LEN = 20;
 static char result[20];
 
-extern const static int DEBUG;
-extern const static int VERBOSE;
+extern const int DEBUG;
+extern const int VERBOSE;
 
 extern int DEBUG_LEVEL;
 
