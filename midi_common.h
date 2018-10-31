@@ -137,4 +137,25 @@ void free_midi_time_signature_event(TimeSignatureEvent *timeSignatureEvent);
  */
 void free_midi_text_event(TextEvent *textEvent);
 
+/**
+ * !!! suppose that this midi file only set tempo once !!!
+ * @param midi
+ * @return tempo in float
+ */
+double get_midi_tempo(Midi *midi);
+
+/**
+ * get track time by count the offset
+ * @param track
+ * @return
+ */
+uint32 get_midi_track_time(MidiTrack *track);
+
+/**
+ * get division time in second
+ * @param midi
+ * @return
+ */
+double get_division_time(Midi *midi);
+
 #endif

@@ -4,10 +4,10 @@
 const static size_t TIME_STR_LEN = 20;
 static char result[20];
 
-const static int DEBUG;
-const static int VERBOSE;
+extern const static int DEBUG;
+extern const static int VERBOSE;
 
-static int DEBUG_LEVEL;
+extern int DEBUG_LEVEL;
 
 
 //NOTE: log functions are not thread safe

@@ -62,3 +62,29 @@ void free_midi(Midi *midi) {
     free_midi_track(midi->track);
     free(midi);
 }
+
+double get_midi_tempo(Midi *midi) {
+    MidiTrack *track = midi->track;
+    while (track) {
+        if (track->trackEvent->type == TRACK_EVENT_TYPE_SET_TEMPO) {
+            TempoEvent *e = track->trackEvent->event;
+            return e->tempo;
+        }
+        track = track->next;
+    }
+    return 120;
+}
+
+uint32 get_midi_track_time(MidiTrack *track) {
+    uint32 offset = 0;
+    TrackEvent *trackEvent = track->trackEvent;
+    while (trackEvent) {
+        offset += trackEvent->offset;
+        trackEvent = trackEvent->next;
+    }
+    return offset;
+}
+
+double get_division_time(Midi *midi) {
+    return (double) midi->header->division * get_midi_tempo(midi) / 60;
+}

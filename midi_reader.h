@@ -1,6 +1,7 @@
 #ifndef MIDIPARSER_READER_H
 #define MIDIPARSER_READER_H
 
+#include <stdio.h>
 #include "midi_common.h"
 
 //NOTE: if you call free_xxx, all it's children with be free too
