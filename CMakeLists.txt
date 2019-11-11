@@ -14,7 +14,9 @@ add_library(MidiParser
         print_util.h print_util.c
         )
 
-link_libraries(MidiParser m)
+target_link_libraries(MidiParser m)
 
-# comment the fowllowing line to build libMidiParser.a
+# comment the following line to build lib
+
+link_libraries(MidiParser)
 add_executable(MidiParser-test test.c)

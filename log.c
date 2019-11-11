@@ -3,10 +3,10 @@
 #include <malloc.h>
 #include "log.h"
 
-const static int DEBUG = 0x10;
-const static int VERBOSE = 0x01;
+const int DEBUG = 0x10;
+const int VERBOSE = 0x01;
 
-static int DEBUG_LEVEL = 0x01;
+int DEBUG_LEVEL = 0x01;
 
 void log_e(char *error) {
     char *now = time_now();

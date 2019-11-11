@@ -26,14 +26,14 @@ Midi *read_midi_file(char *file) {
         len = swap_bit_32(len);
         if (strcmp(TYPE_MIDI_HEADER, (const char *) buffer) == 0) {//header
             log_v("Reading header...");
-            midi->header = read_header(len, f);
+            midi->header = read_midi_header(len, f);
             log_d("Header:");
             print_midi_header(midi->header);
         } else if (strcmp(TYPE_MIDI_TRACK, (const char *) buffer) == 0) {//track
             log_v("Reading track...");
             log_d("Track, len is:");
             log_d(int_to_str(len));
-            MidiTrack *track = read_track(len, f);
+            MidiTrack *track = read_midi_track(len, f);
             if (track != NULL) {
                 MidiTrack *t = midi->track;
                 if (t) {
@@ -57,7 +57,7 @@ Midi *read_midi_file(char *file) {
     return midi;
 }
 
-MidiHeader *read_header(uint32 len, FILE *f) {
+MidiHeader *read_midi_header(uint32 len, FILE *f) {
     uint16 tmp;
     MidiHeader *header = malloc(sizeof(MidiHeader));
 
@@ -75,13 +75,13 @@ MidiHeader *read_header(uint32 len, FILE *f) {
     return header;
 }
 
-MidiTrack *read_track(uint32 len, FILE *f) {
+MidiTrack *read_midi_track(uint32 len, FILE *f) {
     MidiTrack *track = malloc(sizeof(MidiTrack));
     track->length = len;
     track->trackEvent = NULL;
     track->next = NULL;
     TrackEvent *event;
-    for (event = read_event(f); event == NULL || event->type != TRACK_EVENT_TYPE_END; event = read_event(f)) {
+    for (event = read_midi_event(f); event == NULL || event->type != TRACK_EVENT_TYPE_END; event = read_midi_event(f)) {
         if (!event) {//NULL, unsupported event
             continue;
         }
@@ -99,7 +99,7 @@ MidiTrack *read_track(uint32 len, FILE *f) {
 }
 
 
-TrackEvent *read_event(FILE *f) {
+TrackEvent *read_midi_event(FILE *f) {
     uint32 len;
     char *text;
 
@@ -298,7 +298,7 @@ TrackEvent *read_event(FILE *f) {
     } else if (tag >= 0x80 && tag <= 0x8f) {//event note off
         log_d("event note end");
         NoteEvent *noteEvent = malloc(sizeof(NoteEvent));
-        noteEvent->note = read_note(f, NOTE_END, tag & (byte) 0x0f, trackEvent->offset);
+        noteEvent->note = read_midi_note(f, NOTE_END, tag & (byte) 0x0f, trackEvent->offset);
 //        print_note(noteEvent->note);
         trackEvent->type = TRACK_EVENT_TYPE_NOTE;
         trackEvent->event = noteEvent;
@@ -308,7 +308,7 @@ TrackEvent *read_event(FILE *f) {
         log_d("event note start");
 
         NoteEvent *noteEvent = malloc(sizeof(NoteEvent));
-        noteEvent->note = read_note(f, NOTE_START, tag & (byte) 0x0f, trackEvent->offset);
+        noteEvent->note = read_midi_note(f, NOTE_START, tag & (byte) 0x0f, trackEvent->offset);
 //        print_note(noteEvent->note);
 
         trackEvent->type = TRACK_EVENT_TYPE_NOTE;
@@ -374,7 +374,7 @@ float read_tempo(FILE *f) {
     return (60.0f * 1000000 / (tmp[0] << 16 | tmp[1] << 8 | tmp[2]));
 }
 
-Note *read_note(FILE *f, NOTE_TYPE type, byte track, uint32 offset) {
+Note *read_midi_note(FILE *f, NOTE_TYPE type, byte track, uint32 offset) {
     Note *note = malloc(sizeof(Note));
     note->offset = offset;
     note->type = type;

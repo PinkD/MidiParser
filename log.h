@@ -1,13 +1,13 @@
-#ifndef MIDIPARSER_LOG_H
-#define MIDIPARSER_LOG_H
+#ifndef COMMON_LOG_H
+#define COMMON_LOG_H
 
 const static size_t TIME_STR_LEN = 20;
 static char result[20];
 
-const static int DEBUG;
-const static int VERBOSE;
+extern const int DEBUG;
+extern const int VERBOSE;
 
-static int DEBUG_LEVEL;
+extern int DEBUG_LEVEL;
 
 
 //NOTE: log functions are not thread safe

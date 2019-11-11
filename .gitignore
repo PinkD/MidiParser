@@ -5,3 +5,5 @@ build/
 test*
 *.html
 *.mid
+*.wav
+
