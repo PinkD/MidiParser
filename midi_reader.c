@@ -1,6 +1,7 @@
 #include <malloc.h>
 #include <math.h>
 #include <memory.h>
+#include <string.h>
 
 #include "midi_reader.h"
 #include "log.h"

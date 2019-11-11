@@ -12,4 +12,5 @@ void print_note(Note *note);
 
 void print_track(MidiTrack *track);
 
+void print_midi(Midi *midi);
 #endif
